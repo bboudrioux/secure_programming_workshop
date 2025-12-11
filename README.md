@@ -67,7 +67,7 @@ export const loginVulnerable = async (req, res) => {
 
 ---
 
-## 🧩 Atelier 2 : Hardening (Helmet, Rate Limit & Cookies)
+## 🧩 Atelier 2 : Hardening (Helmet, Rate Limit & CORS)
 
 **Objectif : ** Implémenter des défenses contre les attaques DoS/Brute Force, et sécuriser les headers HTTP.
 
@@ -109,6 +109,40 @@ app.use(helmet());
     router.post('/login', loginLimiter, login);
     ```
 3. **Test : ** Dans Postman, essayez de vous connecter plus de 5 fois en 15 minutes. Le 6ème essai doit retourner un statut `429 Too Many Requests`.
+
+### 3. Mise en place de la Sécurité CORS
+
+La mise en place de CORS est essentielle pour prévenir les requêtes indésirables provenant de domaines non autorisés.
+
+1. Installez `cors` si ce n'est pas déjà fait : `npm install cors`.
+2. Dans votre fichier principal `index.js` (ou `app.js`), ajoutez la configuration CORS **avant** toute route :
+
+```javascript
+import cors from "cors";
+// ... imports ...
+
+// 🔒 Configuration CORS
+const allowedOrigins = [
+    'http://localhost:3000', // Votre domaine de développement Front-end
+    '[https://votre-app-front.com](https://votre-app-front.com)' // Votre domaine de production Front-end
+];
+
+const corsOptions = {
+    origin: (origin, callback) => {
+        // Permettre les requêtes sans 'origin' (ex: Postman, mobile, ou same-origin)
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true, // IMPORTANT : Autoriser l'envoi de cookies HttpOnly
+    optionsSuccessStatus: 204
+};
+
+// 🛡️ 4. Active CORS avec la configuration stricte
+app.use(cors(corsOptions));
 
 ---
 
