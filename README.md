@@ -143,6 +143,7 @@ const corsOptions = {
 
 // 🛡️ 4. Active CORS avec la configuration stricte
 app.use(cors(corsOptions));
+```
 
 ---
 
