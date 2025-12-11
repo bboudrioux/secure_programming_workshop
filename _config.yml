@@ -1,0 +1,17 @@
+remote_theme: Brian-boudrioux/workshops-jekyll-theme
+
+titles_from_headings:
+  enabled: false
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: "default"
+
+style: dev
+title: Secure Programming sur mds-social-api 
+description: "Projet fil rouge : Réseau social interne MyDigitalSchool"
+show_clone: false
+show_toc: true
+lang: en
